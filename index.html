@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<style>
+body {
+	margin: 1em;
+}
+h2 {
+	margin-top: 2em;
+}
+code {
+	background-color: lightgrey;
+	padding: .1em .2em;
+}
+pre {
+	width: min-content;
+	margin-left: 1em;
+	padding: .5em 1em;
+	background-color: lightgrey;
+	tab-size: 4;
+}
+</style>
+
+<h1>HTML Application Development Guide</h1>
+
+<h2>Table of contents</h2>
+<ul>
+	<li><a href="#exe">Executing a HTA file from the command line</a></li>
+	<li><a href="#eng">Choosing the HTML engine</a></li>
+	<li><a href="#min">Minimizing the window</a></li>
+	<li><a href="#max">Maximizing the window</a></li>
+</ul>
+
+<h2 id="exe">Executing a HTA file from the command line</h2>
+
+By default, HTA files are associated with <code>mshta.exe</code>:
+
+<pre>C:\> assoc .hta
+.hta=htafile
+
+C:\> ftype htafile
+htafile=C:\Windows\SysWOW64\mshta.exe "%1" (...) %*</pre>
+
+So HTA files can be executed directly. For example: <code>C:\> hello.hta</code>
+
+
+<h2 id="eng">Choosing the HTML engine</h2>
+
+Add a meta tag to the head of your HTML file:
+<pre>&lt;meta http-equiv="x-ua-compatible" content="ie=9" /&gt;</pre>
+
+
+<h2 id="min">Minimizing the window</h2>
+
+Add a HTML Help ActiveX control object to your page:
+<pre>&lt;object id="minimize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
+	&lt;param name="command" value="minimize" /&gt;
+&lt;/object&gt;</pre>
+
+Click the object:
+<pre>&lt;button onclick="minimize.Click()"&gt;Minimize&lt;/button&gt;</pre>
+
+
+<h2 id="max">Maximizing the window</h2>
+
+Add a HTML Help ActiveX control object to your page:
+<pre>&lt;object id="maximize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
+	&lt;param name="command" value="maximize" /&gt;
+&lt;/object&gt;</pre>
+
+Click the object:
+<pre>&lt;button onclick="maximize.Click()"&gt;Maximize&lt;/button&gt;</pre>
+
+Note that maximizing an already maximized window will restore its original size.
