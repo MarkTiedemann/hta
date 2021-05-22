@@ -4,8 +4,11 @@
 body {
 	margin: 1em;
 }
-h2 {
-	margin-top: 2em;
+#toc, #toc ul {
+	padding-inline-start: 1em;
+}
+#toc li {
+	list-style: none;
 }
 code {
 	background-color: lightgrey;
@@ -22,15 +25,72 @@ pre {
 
 <h1>HTML Application Development Guide</h1>
 
-<h2>Table of contents</h2>
-<ul>
-	<li><a href="#exe">Executing a HTA file from the command line</a></li>
-	<li><a href="#eng">Choosing the HTML engine</a></li>
-	<li><a href="#min">Minimizing the window</a></li>
-	<li><a href="#max">Maximizing the window</a></li>
+<p>By Mark Tiedemann &nbsp;|&nbsp; Last updated: 22/05/2021 &nbsp;|&nbsp; Status: Work-in-progress</p>
+
+<strong>Table of contents</strong>
+<ul id="toc">
+	<li><a href="#1.">1. Intro to HTAs</a></li>
+	<ul>
+		<li><a href="#1.1.">1.1. Why use HTAs</a></li>
+		<li><a href="#1.2.">1.2. The hta:application element</a></li>
+	</ul>
+	<li><a href="#2.">2. Common tasks</a></li>
+	<ul>
+		<li><a href="#2.1.">2.1. Execute a HTA file from the command line</a></li>
+		<li><a href="#2.2.">2.2. Determine user agent compatibility</a></li>
+		<li><a href="#2.3.">2.3. Select user agent compatibility</a></li>
+		<li><a href="#2.4.">2.4. Minimize the window</a></li>
+		<li><a href="#2.5.">2.5. Maximize the window</a></li>
+		<li><a href="#2.6.">2.6. Close the window</a></li>
+		<li><a href="#2.7.">2.7. Work with the file system</a></li>
+		<ul>
+			<li><a href="#2.7.1.">2.7.1. Write a file</a></li>
+			<li><a href="#2.7.2.">2.7.2. Read a file</a></li>
+		</ul>
+		<li><a href="#2.8.">2.8. Work with the shell</a></li>
+		<ul>
+			<li><a href="#2.8.1.">2.8.1. Read an environment variable</a></li>
+			<li><a href="#2.8.2.">2.8.2. Run an application without a window</a></li>
+			<li><a href="#2.8.3.">2.8.3. Run a script and capture its output</a></li>
+		</ul>
+		<li><a href="#2.9.">2.9. Work with the registry</a></li>
+		<ul>
+			<li><a href="#2.9.1.">2.9.1. Write a registry entry</a></li>
+			<li><a href="#2.9.2.">2.9.2. Read a registry entry</a></li>
+		</ul>
+	</ul>
+	<li><a href="#3.">3. HTAs for web developers</a></li>
+	<ul>
+		<li><a href="#3.1.">3.1. Print data (alert, console.log)</a></li>
+		<li><a href="#3.2.">3.2. Store data (localStorage)</a></li>
+		<ul>
+			<li><a href="#3.2.1.">3.2.1 localStorage registry polyfill</a></li>
+			<li><a href="#3.2.2.">3.2.2. localStorage file system polyfill</a></li>
+		</ul>
+		<li><a href="#3.3.">3.3. Fetch data (fetch, xhr)</a></li>
+	</ul>
 </ul>
 
-<h2 id="exe">Executing a HTA file from the command line</h2>
+
+<h2 id="1.">1. Intro to HTAs</h2>
+
+For more details, see the <a href="https://en.wikipedia.org/wiki/HTML_Application">Wikipedia article</a>
+or read <a href="https://docs.microsoft.com/en-us/previous-versions/ms536496(v=vs.85)"><i>"Introduction to HTML Applications (HTAs)"</i></a>
+in the Microsoft documentation.
+
+
+<h3 id="1.1">1.1. Why use HTAs</h2>
+
+
+<h3 id="1.2">1.2. The hta:application element</h2>
+
+For more details, see the Microsoft <a href="https://docs.microsoft.com/en-us/previous-versions/ms536495(v=vs.85)">documentation</a>.
+
+
+<h2 id="2.">2. Common tasks</h2>
+
+
+<h3 id="2.1.">2.1. Executing a HTA file from the command line</h3>
 
 By default, HTA files are associated with <code>mshta.exe</code>:
 
@@ -40,16 +100,51 @@ By default, HTA files are associated with <code>mshta.exe</code>:
 C:\> ftype htafile
 htafile=C:\Windows\SysWOW64\mshta.exe "%1" (...) %*</pre>
 
-So HTA files can be executed directly. For example: <code>C:\> hello.hta</code>
+Therefore, HTA files can be executed directly. For example: <code>C:\> hello.hta</code>
 
 
-<h2 id="eng">Choosing the HTML engine</h2>
+<h3 id="2.2.">2.2. Determine user agent compatibility</h3>
+
+By default, HTAs render in Internet Explorer 5 quirks mode.
+
+<p>To determine user compatibility, you may use the <code>documentMode</code> and
+<code>compatMode</code> properties of the <code>document</code> object:</p>
+
+<ul>
+	<li>
+		<code><a href="https://www.w3schools.com/jsref/prop_doc_documentmode.asp">document.documentMode</a></code>
+		can be <code>5</code>, <code>7</code>, <code>8</code>, <code>9</code>, <code>10</code>, or <code>11</code>,
+		depending on the IE mode that was used to render the page.
+	</li>
+	<li>
+		<code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/compatMode">document.compatMode</a></code>
+		can be <code>"BackCompat"</code> if the document is in <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode">quirks mode</a>,
+		or <code>"CSS1Compat"</code> if the document is in (almost) standards mode.
+	</li>
+</ul>
+
+Example HTA file:
+
+<pre>&lt;script&gt;
+	function compatMode() {
+		switch (document.compatMode) {
+			case "BackCompat": return "quirks mode";
+			case "CSS1Compat": return "standards mode";
+		}
+	}
+
+	// Should alert "IE5 in quirks mode"
+	alert("IE" + document.documentMode + " in " + compatMode());
+	close();
+&lt;/script&gt;</pre>
+
+<h3 id="2.3.">2.3. Select user agent compatibility</h3>
 
 Add a meta tag to the head of your HTML file:
 <pre>&lt;meta http-equiv="x-ua-compatible" content="ie=9" /&gt;</pre>
 
 
-<h2 id="min">Minimizing the window</h2>
+<h3 id="2.4.">2.4. Minimize the window</h3>
 
 Add a HTML Help ActiveX control object to your page:
 <pre>&lt;object id="minimize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
@@ -57,10 +152,10 @@ Add a HTML Help ActiveX control object to your page:
 &lt;/object&gt;</pre>
 
 Click the object:
-<pre>&lt;button onclick="minimize.Click()"&gt;Minimize&lt;/button&gt;</pre>
+<pre>&lt;button onclick="minimize.Click();"&gt;Minimize&lt;/button&gt;</pre>
 
 
-<h2 id="max">Maximizing the window</h2>
+<h3 id="2.5.">2.5. Maximize the window</h3>
 
 Add a HTML Help ActiveX control object to your page:
 <pre>&lt;object id="maximize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
@@ -68,6 +163,134 @@ Add a HTML Help ActiveX control object to your page:
 &lt;/object&gt;</pre>
 
 Click the object:
-<pre>&lt;button onclick="maximize.Click()"&gt;Maximize&lt;/button&gt;</pre>
+<pre>&lt;button onclick="maximize.Click();"&gt;Maximize&lt;/button&gt;</pre>
 
 Note that maximizing an already maximized window will restore its original size.
+
+
+<h3 id="2.6.">2.6. Close the window</h3>
+
+<pre>&lt;script&gt;
+	close();
+	// Or alternatively:
+	window.close();
+	self.close();
+&lt;/script&gt;</pre>
+
+
+<h3 id="2.7.">2.7. Work with the file system</h3>
+
+For more details, see Microsoft's <a href="https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/filesystemobject-object"><code>FileSystemObject</code> documentation</a>.
+
+
+<h4 id="2.7.1.">2.7.1. Write a file</h4>
+
+
+<h4 id="2.7.2.">2.7.2. Read a file</h4>
+
+
+<h3 id="2.8.">2.8. Work with the shell</h3>
+
+For more details, see the <a href="https://www.vbsedit.com/html/a7362f02-ea57-451e-8033-5c0c42a4ed02.asp"><i>"Windows Script Host Basics"</i></a> documentation by <a href="https://vbsedit.com/">vbsedit.com</a>,
+specifically the the <a href="https://www.vbsedit.com/html/7b956233-c1aa-4b59-b36d-f3e97a9b02f0.asp"><code>WScript.Shell</code> documentation</a>.
+
+
+<h4 id="2.8.1.">2.8.1. Read an environment variable</h4>
+
+
+<h4 id="2.8.2.">2.8.2. Run an application without a window</h4>
+
+
+<h4 id="2.8.3.">2.8.3. Run a script and capture its output</h4>
+
+
+<h3 id="2.9.">2.9. Work with the registry</h3>
+
+
+<h4 id="2.9.1.">2.9.1. Read a registry entry</h4>
+
+
+<h4 id="2.9.2.">2.9.2. Write a registry entry</h4>
+
+
+<h2 id="3.">3. HTAs for web developers</h2>
+
+
+<h3 id="3.1.">3.1. Print data (alert, console.log)</h3>
+
+
+<h3 id="3.2.">3.1. Store data (localStorage)</h3>
+
+
+<h4 id="3.2.1.">3.2.1. localStorage registry polyfill</h4>
+
+<pre>var localStorage = (function () {
+	var sh = new ActiveXObject("WScript.Shell");
+	var root = "HKCU\\Software\\localStorage\\";
+	return {
+		getItem: function (key) {
+			try {
+				return sh.regRead(root + key);
+			} catch (e) {
+				return null;
+			}
+		},
+		setItem: function (key, value) {
+			sh.regWrite(root + key, value);
+		},
+		removeItem: function (key) {
+			try {
+				sh.regDelete(root + key);
+			} catch (e) {}
+		},
+		clear: function () {
+			try {
+				sh.regDelete(root);
+			} catch (e) {}
+		}
+	}
+})();</pre>
+
+
+<h4 id="3.2.">3.2.2. localStorage file system polyfill</h4>
+
+
+<pre>var localStorage = (function () {
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
+	var sh = new ActiveXObject("WScript.Shell");
+	var root = sh.ExpandEnvironmentStrings("%localappdata%") + "\\localStorage";
+	return {
+		getItem: function (key) {
+			try {
+				var file = fs.openTextFile(root + "\\" + key, 1);
+				var value = file.readAll();
+				file.close();
+				return value;
+			} catch (e) {
+				return null;
+			}
+		},
+		setItem: function (key, value) {
+			if (!fs.folderExists(root)) {
+				fs.createFolder(root);
+			}
+			var file = fs.createTextFile(root + "\\" + key, true);
+			file.write(value);
+			file.close();
+		},
+		removeItem: function (key) {
+			try {
+				fs.deleteFile(root + "\\" + key);
+			} catch (e) {}
+		},
+		clear: function () {
+			try {
+				fs.deleteFolder(root);
+			} catch (e) {}
+		}
+	}
+})();</pre>
+
+
+<h3 id="3.3.">3.3. Fetch data (fetch, xhr)</h3>
+
