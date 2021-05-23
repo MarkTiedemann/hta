@@ -1,0 +1,12 @@
+<script>
+	function compatMode() {
+		switch (document.compatMode) {
+			case "BackCompat": return "quirks mode";
+			case "CSS1Compat": return "standards mode";
+		}
+	}
+
+	// Should alert "IE5 in quirks mode"
+	alert("IE" + document.documentMode + " in " + compatMode());
+	close();
+</script>
