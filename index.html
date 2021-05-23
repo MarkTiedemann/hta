@@ -38,6 +38,7 @@ pre {
 	<li><a href="#2.">2. Common tasks</a></li>
 	<ul>
 		<li><a href="#2.1.">2.1. Execute a HTA file from the command line</a></li>
+		<li><a href="#2.x.">2.x. Read command line arguments</a></li>
 		<li><a href="#2.2.">2.2. Determine user agent compatibility</a></li>
 		<li><a href="#2.3.">2.3. Select user agent compatibility</a></li>
 		<li><a href="#2.4.">2.4. Minimize the window</a></li>
@@ -108,6 +109,41 @@ C:\> ftype htafile
 htafile=C:\Windows\SysWOW64\mshta.exe "%1" (...) %*</pre>
 
 Therefore, HTA files can be executed directly. For example: <code>C:\> hello.hta</code>
+
+
+<h3 id="2.x.">2.x. Read command line arguments</h3>
+
+The <code>commandLine</code> property of the application object returns a quoted path to the HTA file
+as well as additional command-line arguments.
+
+<p>For example, assuming the following HTA file <code>args.hta</code>:</p>
+
+<pre>&lt;hta:application id="app" />
+&lt;ol>&lt;/ol>
+&lt;script>
+	window.onload = function () {
+		var ol = document.getElementsByTagName("ol")[0];
+		var args = app.commandLine.split(/\s+/);
+		for (var i = 0; i &lt; args.length; i++) {
+			var li = document.createElement("li");
+			li.innerText = args[i];
+			ol.appendChild(li);
+		}
+	};
+&lt;/script></pre>
+
+Executing the HTA as:
+
+<pre>C:\dev> .\args.hta one two=three four</pre>
+
+Would generate the following HTML:
+
+<pre>&lt;ol>
+	&lt;li>"C:\dev\args.hta"&lt;/li>
+	&lt;li>one&lt;/li>
+	&lt;li>two=three&lt;/li>
+	&lt;li>four&lt;/li>
+&lt;/ol></pre>
 
 
 <h3 id="2.2.">2.2. Determine user agent compatibility</h3>

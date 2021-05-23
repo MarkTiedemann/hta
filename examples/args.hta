@@ -1,0 +1,13 @@
+<hta:application id="app" />
+<ol></ol>
+<script>
+	window.onload = function () {
+		var ol = document.getElementsByTagName("ol")[0];
+		var args = app.commandLine.split(/\s+/);
+		for (var i = 0; i < args.length; i++) {
+			var li = document.createElement("li");
+			li.innerText = args[i];
+			ol.appendChild(li);
+		}
+	};
+</script>
