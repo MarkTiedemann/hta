@@ -70,6 +70,10 @@ pre {
 		</ul>
 		<li><a href="#3.3.">3.3. Fetch data (fetch, xhr)</a></li>
 	</ul>
+	<li><a href="#4.">3. Miscellaneous</a></li>
+	<ul>
+		<li><a href="#4.1.">4.1. Embed the icon</a></li>
+	</ul>
 </ul>
 
 
@@ -126,7 +130,7 @@ By default, HTAs render in Internet Explorer 5 quirks mode.
 
 Example HTA file:
 
-<pre>&lt;script&gt;
+<pre>&lt;script>
 	function compatMode() {
 		switch (document.compatMode) {
 			case "BackCompat": return "quirks mode";
@@ -137,46 +141,46 @@ Example HTA file:
 	// Should alert "IE5 in quirks mode"
 	alert("IE" + document.documentMode + " in " + compatMode());
 	close();
-&lt;/script&gt;</pre>
+&lt;/script></pre>
 
 <h3 id="2.3.">2.3. Select user agent compatibility</h3>
 
 Add a meta tag to the head of your HTML file:
-<pre>&lt;meta http-equiv="x-ua-compatible" content="ie=9" /&gt;</pre>
+<pre>&lt;meta http-equiv="x-ua-compatible" content="ie=9" /></pre>
 
 
 <h3 id="2.4.">2.4. Minimize the window</h3>
 
 Add a HTML Help ActiveX control object to your page:
-<pre>&lt;object id="minimize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
-	&lt;param name="command" value="minimize" /&gt;
-&lt;/object&gt;</pre>
+<pre>&lt;object id="minimize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	&lt;param name="command" value="minimize" />
+&lt;/object></pre>
 
 Click the object:
-<pre>&lt;button onclick="minimize.Click();"&gt;Minimize&lt;/button&gt;</pre>
+<pre>&lt;button onclick="minimize.Click();">Minimize&lt;/button></pre>
 
 
 <h3 id="2.5.">2.5. Maximize the window</h3>
 
 Add an HTML Help ActiveX control object to your page:
-<pre>&lt;object id="maximize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11"&gt;
-	&lt;param name="command" value="maximize" /&gt;
-&lt;/object&gt;</pre>
+<pre>&lt;object id="maximize" classid="clsid:adb880a6-d8ff-11cf-9377-00aa003b7a11">
+	&lt;param name="command" value="maximize" />
+&lt;/object></pre>
 
 Click the object:
-<pre>&lt;button onclick="maximize.Click();"&gt;Maximize&lt;/button&gt;</pre>
+<pre>&lt;button onclick="maximize.Click();">Maximize&lt;/button></pre>
 
 Note that maximizing an already maximized window will restore its original size.
 
 
 <h3 id="2.6.">2.6. Close the window</h3>
 
-<pre>&lt;script&gt;
+<pre>&lt;script>
 	close();
 	// Or alternatively:
 	window.close();
 	self.close();
-&lt;/script&gt;</pre>
+&lt;/script></pre>
 
 
 <h3 id="2.7.">2.7. Work with the file system</h3>
@@ -298,3 +302,16 @@ specifically the the <a href="https://www.vbsedit.com/html/7b956233-c1aa-4b59-b3
 
 <h3 id="3.3.">3.3. Fetch data (fetch, xhr)</h3>
 
+
+<h2 id="4.">4. Miscellaneous</h2>
+
+
+<h3 id="4.1.">4.1. Embed the icon</h3>
+
+Declare an embedded icon:
+
+<pre>&lt;hta:application icon="#" /></pre>
+
+Prepend the icon to your HTA file:
+
+<pre>C:\> copy /b icon.ico+app.hta app_with_embedded_icon.hta</pre>
