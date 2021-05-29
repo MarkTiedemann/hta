@@ -242,6 +242,21 @@ specifically the the <a href="https://www.vbsedit.com/html/7b956233-c1aa-4b59-b3
 
 <h4 id="2.8.1.">2.8.1. Read an environment variable</h4>
 
+To read an environment variable, use the
+<a href="https://docs.microsoft.com/en-us/previous-versions//dy8116cf(v=vs.85)"><code>ExpandEnvironmentStrings</code></a>
+method of the
+<a href="https://docs.microsoft.com/en-us/previous-versions//aew9yb99(v=vs.85)"><code>WshShell</code></a>
+object.
+
+<p>For example, the following code will expand the <code>%windir%</code> environment variable
+and print its value (<code>C:\Windows</code>, on most systems):
+
+<pre>&lt;script>
+	var sh = new ActiveXObject("WScript.Shell");
+	alert(sh.expandEnvironmentStrings("%windir%"));
+	close();
+&lt;/script></pre>
+
 
 <h4 id="2.8.2.">2.8.2. Run an application without a window</h4>
 
