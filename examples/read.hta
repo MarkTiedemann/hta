@@ -1,0 +1,8 @@
+<script>
+	// Read "hello" from the file "world.txt" 
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
+	var stream = fs.openTextFile("world.txt", /*ForReading*/ 1);
+	alert(stream.readAll());
+	stream.close();
+	close();
+</script>

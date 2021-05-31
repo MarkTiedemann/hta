@@ -1,0 +1,8 @@
+<script>
+	// Write "hello" into the file "world.txt"
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
+	var stream = fs.createTextFile("world.txt", /*Overwrite*/ true);
+	stream.write("hello");
+	stream.close();
+	close();
+</script>

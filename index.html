@@ -27,7 +27,7 @@ pre {
 <h1>HTML Application Development Guide</h1>
 
 <p><i>Status: Work-in-progress
-<br/>Last update: 30/05/2021
+<br/>Last update: 31/05/2021
 <br/>Source: <a href="https://github.com/MarkTiedemann/hta">MarkTiedemann/hta</a></i></p>
 
 <strong>Table of contents</strong>
@@ -233,17 +233,37 @@ Note that maximizing an already maximized window will restore its original size.
 
 <h3 id="2.7.">2.7. Work with the file system</h3>
 
-For more details, see Microsoft's <a href="https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/filesystemobject-object"><code>FileSystemObject</code> documentation</a>.
+The
+<a href="https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/filesystemobject-object"><code>FileSystemObject</code></a>
+has a number of methods that allow you to manipulate files, folders, paths, and drives.
+
+<p>Another important object in this category is the
+<a href="https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/textstream-object"><code>TextStream</code></a>
+object which is used for reading and writing files.
 
 
 <h4 id="2.7.1.">2.7.1. Write a file</h4>
 
-<pre>TODO</pre>
+<pre>&lt;script>
+	// Write "hello" into the file "world.txt"
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
+	var stream = fs.createTextFile("world.txt", /*Overwrite*/ true);
+	stream.write("hello");
+	stream.close();
+	close();
+&lt;/script></pre>
 
 
 <h4 id="2.7.2.">2.7.2. Read a file</h4>
 
-<pre>TODO</pre>
+<pre>&lt;script>
+	// Read "hello" from the file "world.txt" 
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
+	var stream = fs.openTextFile("world.txt", /*ForReading*/ 1);
+	alert(stream.readAll());
+	stream.close();
+	close();
+&lt;/script></pre>
 
 
 <h3 id="2.8.">2.8. Work with the shell</h3>
