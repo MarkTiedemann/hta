@@ -1,0 +1,6 @@
+<script>
+	// Delete the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.regDelete("HKCU\\Software\\world");
+	close();
+</script>

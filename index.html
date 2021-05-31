@@ -59,8 +59,9 @@ pre {
 		</ul>
 		<li><a href="#2.9.">2.9. Work with the registry</a></li>
 		<ul>
-			<li><a href="#2.9.1.">2.9.1. Write a registry entry</a></li>
-			<li><a href="#2.9.2.">2.9.2. Read a registry entry</a></li>
+			<li><a href="#2.9.1.">2.9.1. Read a registry entry</a></li>
+			<li><a href="#2.9.2.">2.9.2. Write a registry entry</a></li>
+			<li><a href="#2.9.3.">2.9.3. Delete a registry entry</a></li>
 		</ul>
 		<li><a href="#2.10.">2.10. Work with a database</a></li>
 		<li><a href="#2.11.">2.11. Execute a WMI query</a></li>
@@ -302,17 +303,41 @@ and print its value (<code>C:\Windows</code>, on most systems):
 
 <h3 id="2.9.">2.9. Work with the registry</h3>
 
-<pre>TODO</pre>
+The
+<a href="https://docs.microsoft.com/en-us/previous-versions//aew9yb99(v=vs.85)"><code>WshShell</code></a>
+object also contains methods for working with the Windows Registry, specifically
+<a href="https://docs.microsoft.com/en-us/previous-versions//yfdfhz1b(v=vs.85)"><code>RegWrite</code></a>,
+<a href="https://docs.microsoft.com/en-us/previous-versions//x05fawxd(v=vs.85)"><code>RegRead</code></a>, and
+<a href="https://docs.microsoft.com/en-us/previous-versions//293bt9hh(v=vs.85)"><code>RegDelete</code></a>:
+
+<h4 id="2.9.1.">2.9.1. Write a registry entry</h4>
+
+<pre>&lt;script>
+	// Write "hello" into the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.regWrite("HKCU\\Software\\world", "hello");
+	close();
+&lt;/script></pre>
 
 
-<h4 id="2.9.1.">2.9.1. Read a registry entry</h4>
+<h4 id="2.9.2.">2.9.2. Read a registry entry</h4>
 
-<pre>TODO</pre>
+<pre>&lt;script>
+	// Read "hello" from the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	alert(sh.regRead("HKCU\\Software\\world"));
+	close();
+&lt;/script></pre>
 
 
-<h4 id="2.9.2.">2.9.2. Write a registry entry</h4>
+<h4 id="2.9.3.">2.9.3. Delete a registry entry</h4>
 
-<pre>TODO</pre>
+<pre>&lt;script>
+	// Delete the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.regDelete("HKCU\\Software\\world");
+	close();
+&lt;/script></pre>
 
 
 <h3 id="2.10.">2.10. Work with a database</h3>

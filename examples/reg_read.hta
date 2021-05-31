@@ -1,0 +1,6 @@
+<script>
+	// Read "hello" from the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	alert(sh.regRead("HKCU\\Software\\world"));
+	close();
+</script>

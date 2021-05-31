@@ -1,0 +1,6 @@
+<script>
+	// Write "hello" into the registry entry HKCU\Software\world
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.regWrite("HKCU\\Software\\world", "hello");
+	close();
+</script>
