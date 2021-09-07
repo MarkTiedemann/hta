@@ -27,7 +27,7 @@ pre {
 <h1>HTML Application Development Guide</h1>
 
 <p><i>Status: Work-in-progress
-<br/>Last update: 31/05/2021
+<br/>Last update: 07/09/2021
 <br/>Source: <a href="https://github.com/MarkTiedemann/hta">MarkTiedemann/hta</a></i></p>
 
 <strong>Table of contents</strong>
@@ -54,13 +54,14 @@ pre {
 		<li><a href="#2.8.">2.8. Work with the shell</a></li>
 		<ul>
 			<li><a href="#2.8.1.">2.8.1. Read an environment variable</a></li>
-			<li><a href="#2.8.2.">2.8.2. Run an application without a window</a></li>
-			<li><a href="#2.8.3.">2.8.3. Run a script and capture its output</a></li>
+			<li><a href="#2.8.2.">2.8.2. Start an application</a></li>
+			<li><a href="#2.8.3.">2.8.3. Start an application without a window</a></li>
+			<li><a href="#2.8.4.">2.8.4. Execute an application and capture its output</a></li>
 		</ul>
 		<li><a href="#2.9.">2.9. Work with the registry</a></li>
 		<ul>
-			<li><a href="#2.9.1.">2.9.1. Read a registry entry</a></li>
-			<li><a href="#2.9.2.">2.9.2. Write a registry entry</a></li>
+			<li><a href="#2.9.1.">2.9.1. Write a registry entry</a></li>
+			<li><a href="#2.9.2.">2.9.2. Read a registry entry</a></li>
 			<li><a href="#2.9.3.">2.9.3. Delete a registry entry</a></li>
 		</ul>
 		<li><a href="#2.10.">2.10. Work with a database</a></li>
@@ -75,6 +76,7 @@ pre {
 			<li><a href="#3.2.2.">3.2.2. localStorage file system polyfill</a></li>
 		</ul>
 		<li><a href="#3.3.">3.3. Fetch data (fetch, xhr)</a></li>
+		<li><a href="#3.4.">3.4. Parse HTML</a></li>
 	</ul>
 	<li><a href="#4.">4. Miscellaneous</a></li>
 	<ul>
@@ -93,12 +95,12 @@ or read <a href="https://docs.microsoft.com/en-us/previous-versions/ms536496(v=v
 in the Microsoft documentation.
 
 
-<h3 id="1.1">1.1. Why use HTAs</h2>
+<h3 id="1.1.">1.1. Why use HTAs</h2>
 
 <pre>TODO</pre>
 
 
-<h3 id="1.2">1.2. The hta:application element</h2>
+<h3 id="1.2.">1.2. The hta:application element</h2>
 
 <pre>TODO</pre>
 
@@ -292,14 +294,38 @@ and print its value (<code>C:\Windows</code>, on most systems):
 &lt;/script></pre>
 
 
-<h4 id="2.8.2.">2.8.2. Run an application without a window</h4>
+<h4 id="2.8.2.">2.8.2. Start an application</h4>
 
-<pre>TODO</pre>
+Start the Windows calculator:
+
+<pre>&lt;script>
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.run("calc");
+	close();
+&lt;/script></pre>
 
 
-<h4 id="2.8.3.">2.8.3. Run a script and capture its output</h4>
+<h4 id="2.8.3.">2.8.3. Start an application without a window</h4>
 
-<pre>TODO</pre>
+Start a PHP webserver in the background:
+
+<pre>&lt;script>
+	var sh = new ActiveXObject("WScript.Shell");
+	sh.run("cmd /c \"php -S localhost:8000\"", 0, false);
+	close();
+&lt;/script></pre>
+
+
+<h4 id="2.8.4.">2.8.4. Execute an application and capture its output</h4>
+
+Execute <code>powershell</code> and print its version:
+
+<pre>&lt;script>
+	var sh = new ActiveXObject("WScript.Shell");
+	var proc = sh.exec("powershell -c $PSVersionTable.PSVersion.toString()");
+	alert(proc.stdout.readAll());
+	close();
+&lt;/script></pre>
 
 
 <h3 id="2.9.">2.9. Work with the registry</h3>
@@ -455,7 +481,7 @@ To inspect the log, open the <code>Event Viewer</code> application (<code>eventv
 })();</pre>
 
 
-<h4 id="3.2.">3.2.2. localStorage file system polyfill</h4>
+<h4 id="3.2.2.">3.2.2. localStorage file system polyfill</h4>
 
 <pre>var localStorage = (function () {
 	var fs = new ActiveXObject("Scripting.FileSystemObject");
@@ -497,6 +523,18 @@ To inspect the log, open the <code>Event Viewer</code> application (<code>eventv
 <h3 id="3.3.">3.3. Fetch data (fetch, xhr)</h3>
 
 <pre>TODO</pre>
+
+
+<h3 id="3.4.">3.4. Parse HTML</h3>
+
+<pre>&lt;script>
+	var document = new ActiveXObject("HTMLFile");
+	document.open();
+	document.write("&lt;h1 id=\"hello\">world&lt;/h1>");
+	document.close();
+	alert(document.getElementById("hello").innerText);
+	close();
+&lt;/script></pre>
 
 
 <h2 id="4.">4. Miscellaneous</h2>

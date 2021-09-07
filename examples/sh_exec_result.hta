@@ -1,0 +1,6 @@
+<script>
+	var sh = new ActiveXObject("WScript.Shell");
+	var proc = sh.exec("powershell -c $PSVersionTable.PSVersion.toString()");
+	alert(proc.stdout.readAll());
+	close();
+</script>
