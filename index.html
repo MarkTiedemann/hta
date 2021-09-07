@@ -30,6 +30,25 @@ pre {
 <br/>Last update: 07/09/2021
 <br/>Source: <a href="https://github.com/MarkTiedemann/hta">MarkTiedemann/hta</a></i></p>
 
+<!--
+	TODO: Generate ToC using JS
+	TODO: Flatten ToC:
+		1. Intro
+		2. The command line
+			2.1. Execute a HTA file
+			...
+		2. The user agent
+		4. The window
+		5. The file system
+		6. The shell
+		7. The registry
+		8. Miscellaneous
+			9.1. Execute a WMI query
+			9.2. Parse HTML
+			9.3. Embed an icon
+		9. For web developers
+-->
+
 <strong>Table of contents</strong>
 <ul id="toc">
 	<li><a href="#1.">1. Intro to HTAs</a></li>
@@ -40,6 +59,8 @@ pre {
 	<li><a href="#2.">2. Common tasks</a></li>
 	<ul>
 		<li><a href="#2.1.">2.1. Execute a HTA file from the command line</a></li>
+		<li><a href="#2.x.">2.x. Executing a JavaScript one-liner</a></li>
+		<li><a href="#2.x.">2.x. Get the location of the HTA file</a></li>
 		<li><a href="#2.x.">2.x. Read command line arguments</a></li>
 		<li><a href="#2.2.">2.2. Determine user agent compatibility</a></li>
 		<li><a href="#2.3.">2.3. Select user agent compatibility</a></li>
@@ -121,6 +142,19 @@ C:\> ftype htafile
 htafile=C:\Windows\SysWOW64\mshta.exe "%1" (...) %*</pre>
 
 Therefore, HTA files can be executed directly. For example: <code>C:\> hello.hta</code>
+
+
+<h3 id="2.x.">2.x. Executing a JavaScript one-liner</h3>
+
+<pre>C:\> mshta "javascript: alert(screen.availWidth); close();"</pre>
+
+
+<h3 id="2.x.">2.x. Get the location of the HTA file</h3>
+
+<pre>&lt;script>
+	alert(location.pathname);
+	close();
+&lt;/script></pre>
 
 
 <h3 id="2.x.">2.x. Read command line arguments</h3>
