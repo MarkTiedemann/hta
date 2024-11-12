@@ -1,0 +1,27 @@
+<meta http-equiv="x-ua-compatible" content="ie=11" />
+<script>
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener("load", function() {
+		alert(
+			"HTTP/1.1 " + xhr.status + " " + xhr.statusText + "\n"
+			+ xhr.getAllResponseHeaders()
+			+ xhr.responseText
+		);
+		close();
+	});
+	xhr.addEventListener("error", function() {
+		alert("Error");
+		close();
+	});
+	xhr.addEventListener("timeout", function() {
+		alert("Timeout");
+		close();
+	});
+	xhr.open("GET", "https://example.org", true);
+	// Prevent cache usage
+	xhr.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
+	xhr.setRequestHeader("Expires", "Thu, 1 Jan 1970 00:00:00 GMT");
+	xhr.setRequestHeader("Pragma", "no-cache");
+	xhr.timeout = 10000;
+	xhr.send();
+</script>

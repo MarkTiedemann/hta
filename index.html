@@ -97,7 +97,8 @@ pre {
 			<li><a href="#3.2.2.">3.2.2. localStorage file system polyfill</a></li>
 		</ul>
 		<li><a href="#3.3.">3.3. Fetch data (fetch, xhr)</a></li>
-		<li><a href="#3.4.">3.4. Parse HTML</a></li>
+		<li><a href="#3.4.">3.4. Parse JSON</a></li>
+		<li><a href="#3.5.">3.5. Parse HTML</a></li>
 	</ul>
 	<li><a href="#4.">4. Miscellaneous</a></li>
 	<ul>
@@ -556,10 +557,49 @@ To inspect the log, open the <code>Event Viewer</code> application (<code>eventv
 
 <h3 id="3.3.">3.3. Fetch data (fetch, xhr)</h3>
 
-<pre>TODO</pre>
+<p><code>fetch</code> is not available. However, <code>XMLHttpRequest</code>, also known as <i>xhr</i>, is available and can be used to make requests:</p>
+
+<pre>&lt;meta http-equiv="x-ua-compatible" content="ie=11" />
+&lt;script>
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener("load", function() {
+		alert(
+			"HTTP/1.1 " + xhr.status + " " + xhr.statusText + "\n"
+			+ xhr.getAllResponseHeaders()
+			+ xhr.responseText
+		);
+		close();
+	});
+	xhr.addEventListener("error", function() {
+		alert("Error");
+		close();
+	});
+	xhr.addEventListener("timeout", function() {
+		alert("Timeout");
+		close();
+	});
+	xhr.open("GET", "https://example.org", true);
+	// Prevent cache usage
+	xhr.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
+	xhr.setRequestHeader("Expires", "Thu, 1 Jan 1970 00:00:00 GMT");
+	xhr.setRequestHeader("Pragma", "no-cache");
+	xhr.timeout = 10000;
+	xhr.send();
+&lt;/script></pre>
 
 
-<h3 id="3.4.">3.4. Parse HTML</h3>
+<h3 id="3.4.">3.4. Parse JSON</h3>
+
+<p><code>JSON.parse</code> and <code>JSON.stringify</code> work as expected:</p>
+
+<pre>&lt;meta http-equiv="x-ua-compatible" content="ie=11" />
+&lt;script>
+	alert(JSON.stringify(JSON.parse('{ "a": 1, "b": 2 }')));
+	close();
+&lt;/script></pre>
+
+
+<h3 id="3.5.">3.5. Parse HTML</h3>
 
 <pre>&lt;script>
 	var document = new ActiveXObject("HTMLFile");
