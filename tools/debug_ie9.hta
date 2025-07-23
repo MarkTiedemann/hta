@@ -5,7 +5,7 @@
 <style>
 	body {
 		margin: 0;
-		background-color: white /*magenta*/;
+		background-color: white;
 		font-family: "Segoe UI";
 	}
 	main {
@@ -43,7 +43,6 @@
 		add("document.characterSet", document.characterSet); // utf-8
 		add("document.compatMode", document.compatMode); // CSS1Compat
 		add("document.documentMode", document.documentMode); // 9
-		// add("navigator.userAgent", navigator.userAgent);
 		add("screen.availWidth", screen.availWidth);
 		add("screen.availHeight", screen.availHeight);
 		add("hta:application", JSON.stringify(hta, null, "\t"));
@@ -51,8 +50,11 @@
 	addEventListener("load", function() {
 		var main = document.querySelector("main");
 		var rect = main.getBoundingClientRect();
-		var width = rect.width + 23 /*padding*/;
-		var height = rect.height + 57 /*padding*/;
+		var width = rect.width;
+		var height = rect.height;
+		resizeTo(width, height);
+		width = Math.ceil(width + (width - innerWidth));
+		height = Math.ceil(height + (height - innerHeight)); 
 		resizeTo(width, height);
 		moveTo(
 			(screen.availWidth / 2) - (width / 2),

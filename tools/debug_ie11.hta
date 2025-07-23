@@ -5,7 +5,7 @@
 <style>
 	body {
 		margin: 0;
-		background-color: magenta;
+		background-color: white;
 		font-family: "Segoe UI";
 	}
 	main {
@@ -45,15 +45,17 @@
 		add("document.documentMode", document.documentMode); // 11
 		add("document.title", document.title); // debug ie11
 		add("navigator.language", navigator.language); // de-DE
-		// add("navigator.userAgent", navigator.userAgent);
 		add("screen.availWidth", screen.availWidth);
 		add("screen.availHeight", screen.availHeight);
 	});
 	addEventListener("load", function() {
 		const main = document.querySelector("main");
 		const rect = main.getBoundingClientRect();
-		const width = rect.width + 22 /*padding*/;
-		const height = rect.height + 56 /*padding*/;
+		let width = rect.width;
+		let height = rect.height;
+		resizeTo(width, height);
+		width = Math.ceil(width + (width - innerWidth));
+		height = Math.ceil(height + (height - innerHeight)); 
 		resizeTo(width, height);
 		moveTo(
 			(screen.availWidth / 2) - (width / 2),
