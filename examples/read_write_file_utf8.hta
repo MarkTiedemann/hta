@@ -1,0 +1,34 @@
+<meta charset="utf-8"/>
+<script>
+
+	function readFileUtf8(name) {
+		var stream = new ActiveXObject("ADODB.Stream");
+		stream.Charset = "utf-8";
+		stream.Open();
+		stream.LoadFromFile(name);
+		var string = stream.ReadText();
+		stream.Close();
+		return string;
+	}
+
+	function writeFileUtf8(name, content, overwrite) {
+		var stream = new ActiveXObject("ADODB.Stream");
+		stream.Charset = "utf-8";
+		stream.Open();
+		stream.WriteText(content);
+		stream.SaveToFile(name, overwrite ? 2 : 1);
+		stream.Close();
+	}
+
+	function deleteFile(name) {
+		var fso = new ActiveXObject("Scripting.FileSystemObject");
+		fso.DeleteFile(name);
+	}
+
+	var name = "computer.txt";
+	writeFileUtf8(name, "🖥", true);
+	alert(readFileUtf8(name));
+
+	deleteFile(name);
+	close();
+</script>
