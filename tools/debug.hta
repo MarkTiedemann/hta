@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
 <meta http-equiv="x-ua-compatible" content="ie=11"/>
-<title>Debug</title>
+<title>debug</title>
 <style>
 	body {
 		margin: 0;
@@ -11,10 +11,15 @@
 	main {
 		display: inline-block;
 		background-color: white;
+		padding: 1rem;
+	}
+	h1 {
+		margin: 0;
+		font-size: 1.5rem;
 	}
 	dl {
 		margin: 0;
-		padding: 1em;
+		margin-top: 1rem;
 	}
 	dt {
 		font-style: italic;
@@ -40,12 +45,14 @@
 		add("document.title", document.title); // Debug
 		add("navigator.language", navigator.language); // de-DE
 		// add("navigator.userAgent", navigator.userAgent);
+		add("screen.availWidth", screen.availWidth);
+		add("screen.availHeight", screen.availHeight);
 	});
 	addEventListener("load", function() {
 		const main = document.querySelector("main");
 		const rect = main.getBoundingClientRect();
-		const width = rect.width + 22;
-		const height = rect.height + 56;
+		const width = rect.width + 22 /*padding*/;
+		const height = rect.height + 56 /*padding*/;
 		resizeTo(width, height);
 		moveTo(
 			(screen.availWidth / 2) - (width / 2),
@@ -54,5 +61,6 @@
 	});
 </script>
 <main>
+	<h1>debug</h1>
 	<dl></dl>
 </main>
