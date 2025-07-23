@@ -1,0 +1,11 @@
+<meta http-equiv="x-ua-compatible" content="ie=9"/>
+<script>
+	var WScriptShell = new ActiveXObject("WScript.Shell");
+	var ShellApplication = new ActiveXObject("Shell.Application");
+	var WinDir = WScriptShell.ExpandEnvironmentStrings("%WinDir%");
+	var Sys32Folder = ShellApplication.NameSpace(WinDir + "\\System32");
+	var HtaFile = Sys32Folder.ParseName("mshta.exe");
+	var HtaVersion = Sys32Folder.GetDetailsOf(HtaFile, /*File version*/ 166);
+	alert(HtaVersion);
+	close();
+</script>

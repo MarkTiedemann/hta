@@ -1,0 +1,43 @@
+<meta http-equiv="x-ua-compatible" content="ie=9"/>
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Key</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
+<script>
+	var WScriptShell = new ActiveXObject("WScript.Shell");
+	var winDir = WScriptShell.ExpandEnvironmentStrings("%windir%");
+
+	var ShellApplication = new ActiveXObject("Shell.Application");
+	
+	// https://learn.microsoft.com/en-us/windows/win32/shell/shell-namespace
+	var folder = ShellApplication.NameSpace(winDir + "\\System32");
+	
+	// https://learn.microsoft.com/en-us/windows/win32/shell/folder-parsename
+	var file = folder.ParseName("mshta.exe");
+
+	var tbody = document.querySelector("tbody");
+	for (var i = 0; i < 1000; i++) {
+		// https://learn.microsoft.com/en-us/windows/win32/shell/folder-getdetailsof
+		var key = folder.GetDetailsOf(null, i);
+		var value = folder.GetDetailsOf(file, i);
+		if (value !== "") {
+			var tr = document.createElement("tr");
+			var tdId = document.createElement("td");
+			var tdKey = document.createElement("td");
+			var tdValue = document.createElement("td");
+			tdId.textContent = i.toString();
+			tdKey.textContent = key;
+			tdValue.textContent = value;
+			tr.appendChild(tdId);
+			tr.appendChild(tdKey);
+			tr.appendChild(tdValue);
+			tbody.appendChild(tr);
+		}
+	}
+</script>
