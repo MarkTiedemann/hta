@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<hta:application id="hta"/>
+<meta charset="utf-8"/>
+<meta http-equiv="x-ua-compatible" content="ie=9"/>
+<style>
+	body {
+		margin: 0;
+		background-color: white /*magenta*/;
+		font-family: "Segoe UI";
+	}
+	main {
+		display: inline-block;
+		background-color: white;
+		padding: 1rem;
+	}
+	h1 {
+		margin: 0;
+		font-size: 1.5rem;
+	}
+	dl {
+		margin: 0;
+		margin-top: 1rem;
+	}
+	dt {
+		font-style: italic;
+	}
+	dd {
+		white-space: pre;
+		font-weight: bold;
+	}
+</style>
+<script>
+	function add(key, value) {
+		var dl = document.querySelector("dl");
+		var dt = document.createElement("dt");
+		var dd = document.createElement("dd");
+		dt.textContent = key;
+		dd.textContent = value;
+		dl.appendChild(dt);
+		dl.appendChild(dd);
+	} 
+	document.addEventListener("DOMContentLoaded", function() {
+		add("document.characterSet", document.characterSet); // utf-8
+		add("document.compatMode", document.compatMode); // CSS1Compat
+		add("document.documentMode", document.documentMode); // 9
+		// add("navigator.userAgent", navigator.userAgent);
+		add("screen.availWidth", screen.availWidth);
+		add("screen.availHeight", screen.availHeight);
+		add("hta:application", JSON.stringify(hta, null, "\t"));
+	});
+	addEventListener("load", function() {
+		var main = document.querySelector("main");
+		var rect = main.getBoundingClientRect();
+		var width = rect.width + 23 /*padding*/;
+		var height = rect.height + 57 /*padding*/;
+		resizeTo(width, height);
+		moveTo(
+			(screen.availWidth / 2) - (width / 2),
+			(screen.availHeight / 2) - (height / 2)
+		);
+	});
+</script>
+<main>
+	<h1>debug ie9</h1>
+	<dl></dl>
+</main>

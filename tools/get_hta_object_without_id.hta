@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<hta:application/>
+<meta charset="utf-8"/>
+<meta http-equiv="x-ua-compatible" content="ie=9"/>
+<script>
+	var hta = document
+		.createNodeIterator(
+			document.documentElement,
+			NodeFilter.SHOW_ELEMENT,
+			function(node) {
+				return node.nodeName === "HTA:APPLICATION"
+					? NodeFilter.FILTER_ACCEPT
+					: NodeFilter.FILTER_REJECT;
+			},
+			false
+		)
+		.nextNode();
+	alert(JSON.stringify(hta, null, "\t"));
+	close();
+</script>
