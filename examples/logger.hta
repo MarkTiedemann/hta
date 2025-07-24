@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<meta http-equiv="x-ua-compatible" content="ie=11"/>
+<script>
+	function createLogger(/**@type {{ filePath: string, mode: "append" | "overwrite" }}*/ options) {
+		const fso = new ActiveXObject("Scripting.FileSystemObject");
+		const file = fso.OpenTextFile(options.filePath, options.mode === "append" ? /*append*/ 8 : /*write*/ 2, /*create*/ true, /*unicode*/ -1);
+		addEventListener("beforeunload", function() { file.Close() });
+		return function(/**@type {string}*/ message) { file.Write(message + "\n") };
+	}
+
+	const log = createLogger({ filePath: "./log.txt", mode: "overwrite" });
+	log("test")
+	log("❤️");
+
+	close();
+</script>

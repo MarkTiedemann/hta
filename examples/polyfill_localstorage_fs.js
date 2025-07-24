@@ -1,5 +1,5 @@
 var localStorage = (function () {
-	var fs = new ActiveXObject("Scripting.streamSystemObject");
+	var fs = new ActiveXObject("Scripting.FileSystemObject");
 	var sh = new ActiveXObject("WScript.Shell");
 	var root = sh.ExpandEnvironmentStrings("%localappdata%") + "\\localStorage";
 	return {
